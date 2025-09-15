@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import profilePic from "../assets/profile-pic.png";
+import profilePic from "../assets/profile-pic.webp";
+
 import TypewriterText from "./TypewriterText";
 
 function scrollToSection(id) {
