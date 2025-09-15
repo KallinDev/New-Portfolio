@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import TypewriterText from "./TypewriterText";
@@ -6,6 +6,7 @@ import TypewriterText from "./TypewriterText";
 export default function Contact() {
   const [status, setStatus] = useState(""); // "success" or "error"
   const [submitting, setSubmitting] = useState(false);
+  const [grecaptchaLoaded, setGrecaptchaLoaded] = useState(false);
 
   const socials = [
     {
@@ -21,8 +22,23 @@ export default function Contact() {
     { name: "X", link: "https://x.com/kallindev", icon: <SiX /> },
   ];
 
+  // Dynamically load reCAPTCHA script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.google.com/recaptcha/api.js?render=6Ldp2corAAAAAEjkUqghGOt7Nf83wV7N4moMESiG";
+    script.async = true;
+    script.onload = () => setGrecaptchaLoaded(true);
+    document.body.appendChild(script);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!grecaptchaLoaded || !window.grecaptcha) {
+      alert("reCAPTCHA is not loaded yet. Try again in a few seconds.");
+      return;
+    }
+
     setSubmitting(true);
     setStatus("");
 
@@ -30,9 +46,9 @@ export default function Contact() {
     const data = new FormData(form);
 
     try {
-      // Get reCAPTCHA token
+      // Wait until grecaptcha is ready
       const token = await window.grecaptcha.execute(
-        "6Ldp2corAAAAAEjkUqghGOt7Nf83wV7N4moMESiG", // PUBLIC SITE KEY
+        "6Ldp2corAAAAAEjkUqghGOt7Nf83wV7N4moMESiG",
         { action: "contact" }
       );
       data.append("g-recaptcha-response", token);
@@ -74,9 +90,7 @@ export default function Contact() {
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Honeypot field */}
           <input type="text" name="_gotcha" style={{ display: "none" }} />
-
           <input
             type="text"
             name="name"
@@ -98,7 +112,6 @@ export default function Contact() {
             className="glass-input px-5 py-3 rounded-xl bg-white/10 border border-cyan-400/30 text-white focus:border-pink-500 outline-none transition-all duration-200"
             rows={4}
           />
-
           <button
             type="submit"
             disabled={submitting}
@@ -119,7 +132,6 @@ export default function Contact() {
           </p>
         )}
 
-        {/* Socials */}
         <div className="mt-8 flex gap-6 justify-center">
           {socials.map((social) => (
             <a
@@ -136,12 +148,8 @@ export default function Contact() {
         </div>
       </motion.div>
 
-      {/* Decorative floating blobs */}
       <div className="absolute top-1/2 right-0 w-20 h-20 bg-pink-500/20 rounded-full blur-2xl animate-float2" />
       <div className="absolute bottom-0 left-1/3 w-16 h-16 bg-cyan-400/20 rounded-full blur-2xl animate-float" />
-
-      {/* Load reCAPTCHA */}
-      <script src="https://www.google.com/recaptcha/api.js?render=6Ldp2corAAAAAEjkUqghGOt7Nf83wV7N4moMESiG"></script>
     </section>
   );
 }
