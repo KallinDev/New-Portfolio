@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showArrow, setShowArrow] = useState(true); // show/hide scroll arrow
 
   const sections = ["home", "about", "skills", "projects", "contact"];
 
@@ -17,13 +18,27 @@ export default function App() {
     const nextSection = sections.find((id) => {
       const el = document.getElementById(id);
       if (!el) return false;
-      return el.offsetTop > scrollPos + 10; // next section below current scroll
+      return el.offsetTop > scrollPos + 10;
     });
     if (nextSection) {
       const el = document.getElementById(nextSection);
       el.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const contactSection = document.getElementById("contact");
+      if (!contactSection) return;
+      // fade arrow out if user has scrolled to Contact
+      const scrolledToContact =
+        window.scrollY + window.innerHeight >= contactSection.offsetTop;
+      setShowArrow(!scrolledToContact);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black relative overflow-x-hidden">
@@ -44,7 +59,11 @@ export default function App() {
       <Footer />
 
       {/* Scroll arrow fixed at bottom middle with circle */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+      <div
+        className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-500 ${
+          showArrow ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
         <button
           onClick={scrollToNextSection}
           className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-3xl animate-bounce hover:scale-110 transition-transform duration-300"

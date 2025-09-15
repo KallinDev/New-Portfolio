@@ -41,11 +41,6 @@ export default function About() {
           I craft high-performance, visually stunning web applications that
           captivate users while remaining highly functional and intuitive.
         </p>
-        <p className="text-base text-gray-400">
-          Always exploring new trends and technologies, I aim to push the
-          boundaries of what’s possible on the web—creating interfaces that are
-          not only seen, but felt.
-        </p>
       </motion.div>
 
       {/* Decorative floating blobs */}
