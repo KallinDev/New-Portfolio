@@ -22,7 +22,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
   return (
     <>
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 flex items-center px-8 py-4 z-50 bg-transparent backdrop-blur-sm transition-opacity duration-300">
+      <header className="fixed top-0 left-0 right-0 flex items-center px-8 py-8 z-50 bg-transparent backdrop-blur-sm transition-opacity duration-300">
         {/* Left: Hamburger */}
         <div className="flex-1 flex items-center gap-2">
           <button
@@ -77,15 +77,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
           ))}
         </nav>
 
-        {/* Right button */}
-        <div className="flex-1 flex items-center justify-end">
-          <button
-            onClick={() => handleClick("contact")}
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold shadow-lg hover:scale-110 transition-transform duration-500 cursor-pointer"
-          >
-            Hire Me
-          </button>
-        </div>
+        {/* Right placeholder to preserve header height */}
+        <div className="flex-1" />
       </header>
 
       {/* Mobile menu overlay */}

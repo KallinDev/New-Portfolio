@@ -58,18 +58,30 @@ export default function App() {
 
       <Footer />
 
-      {/* Scroll arrow fixed at bottom middle with circle */}
+      {/* Scroll arrow fixed at bottom middle (matches Hero style) */}
       <div
-        className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-500 ${
+        className={`fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-500 ${
           showArrow ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <button
           onClick={scrollToNextSection}
-          className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-3xl animate-bounce hover:scale-110 transition-transform duration-300"
+          className="flex items-center justify-center w-12 h-12 hover:scale-120 hover:text-pink-500 transition-transform duration-300"
           aria-label="Scroll to next section"
         >
-          ↓
+          <svg
+            className="h-6 w-6 text-cyan-400 animate-bounce"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
         </button>
       </div>
     </div>

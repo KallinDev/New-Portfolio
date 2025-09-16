@@ -13,6 +13,7 @@ const TypewriterText = ({
   const [shouldStartTyping, setShouldStartTyping] = useState(!waitForTrigger);
   const elementRef = useRef(null);
 
+  // Start typing when parent triggers
   useEffect(() => {
     if (waitForTrigger) {
       const checkStartTyping = () => {
@@ -35,6 +36,7 @@ const TypewriterText = ({
     }
   }, [waitForTrigger]);
 
+  // Detect if element is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,9 +45,7 @@ const TypewriterText = ({
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.1,
-      }
+      { threshold: 0.1 }
     );
 
     if (elementRef.current) {
@@ -55,6 +55,7 @@ const TypewriterText = ({
     return () => observer.disconnect();
   }, []);
 
+  // Typewriter effect
   useEffect(() => {
     if (!isInView || !shouldStartTyping) return;
 
@@ -73,23 +74,24 @@ const TypewriterText = ({
   return (
     <span ref={elementRef} className={className}>
       {displayText}
-      <style jsx>{`
-        @keyframes blink {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0;
-          }
-        }
-        .cursor {
-          animation: blink 1s steps(1) infinite;
-          font-weight: 100;
-          margin-left: 1px;
+      <span
+        className="cursor"
+        style={{
+          display: "inline-block",
+          width: "1px",
+          height: "1em",
+          backgroundColor: "currentColor",
+          marginLeft: "8px", // <-- bigger gap
+          verticalAlign: "bottom",
+          animation: "smoothBlink 1s ease-in-out infinite",
+        }}
+      />
+      <style>{`
+        @keyframes smoothBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
       `}</style>
-      <span className="cursor">│</span>
     </span>
   );
 };
