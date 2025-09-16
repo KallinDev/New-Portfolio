@@ -169,14 +169,6 @@ const Projects = () => {
                     >
                       View Demo
                     </a>
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-full bg-white/20 text-white font-semibold hover:scale-105 transition-transform duration-200"
-                    >
-                      GitHub
-                    </a>
                   </div>
                 </div>
               </motion.div>
